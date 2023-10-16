@@ -63,7 +63,7 @@ return (tokens);
 char **_strtok(char *line, char *delim)
 {
 char **ptr;
-int index = 0, tokens, t, letters, l;
+int index = 0, tokens, s, letters, n;
 
 tokens = count_tokens(line, delim);
 if (tokens == 0)
@@ -73,15 +73,15 @@ ptr = malloc(sizeof(char *) * (tokens + 2));
 if (!ptr)
 return (NULL);
 
-for (t = 0; t < tokens; t++)
+for (s = 0; s < tokens; s++)
 {
 while (line[index] == *delim)
 index++;
 
 letters = token_len(line + index, delim);
 
-ptr[t] = malloc(sizeof(char) * (letters + 1));
-if (!ptr[t])
+ptr[s] = malloc(sizeof(char) * (letters + 1));
+if (!ptr[s])
 {
 for (index -= 1; index >= 0; index--)
 free(ptr[index]);
@@ -89,16 +89,16 @@ free(ptr);
 return (NULL);
 }
 
-for (l = 0; l < letters; l++)
+for (n = 0; n < letters; n++)
 {
-ptr[t][l] = line[index];
+ptr[s][n] = line[index];
 index++;
 }
 
-ptr[t][l] = '\0';
+ptr[s][n] = '\0';
 }
-ptr[t] = NULL;
-ptr[t + 1] = NULL;
+ptr[s] = NULL;
+ptr[s + 1] = NULL;
 
 return (ptr);
 }

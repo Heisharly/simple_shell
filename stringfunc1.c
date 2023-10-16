@@ -32,11 +32,11 @@ return (length);
 */
 char *_strcpy(char *dest, const char *src)
 {
-size_t i;
+size_t j;
 
-for (i = 0; src[i] != '\0'; i++)
-dest[i] = src[i];
-dest[i] = '\0';
+for (j = 0; src[j] != '\0'; j++)
+dest[j] = src[j];
+dest[j] = '\0';
 return (dest);
 }
 
@@ -69,18 +69,18 @@ return (dest);
 *            of bytes are copied from source.
 * @dest: Pointer to destination string.
 * @src: Pointer to source string.
-* @n: n bytes to copy from src.
+* @m: m bytes to copy from src.
 *
 * Return: Pointer to destination string.
 */
-char *_strncat(char *dest, const char *src, size_t n)
+char *_strncat(char *dest, const char *src, size_t m)
 {
 size_t dest_len = _strlen(dest);
-size_t i;
+size_t j;
 
-for (i = 0; i < n && src[i] != '\0'; i++)
-dest[dest_len + i] = src[i];
-dest[dest_len + i] = '\0';
+for (j = 0; j < m && src[j] != '\0'; j++)
+dest[dest_len + j] = src[j];
+dest[dest_len + j] = '\0';
 
 return (dest);
 }

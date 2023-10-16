@@ -53,7 +53,7 @@ return (127);
 */
 int proc_file_commands(char *file_path, int *exe_ret)
 {
-ssize_t file, b_read, i;
+ssize_t file, b_read, j;
 unsigned int line_size = 0;
 unsigned int old_size = 120;
 char *line, **args, **front;
@@ -80,16 +80,16 @@ line = _realloc(line, old_size, line_size);
 _strcat(line, buffer);
 old_size = line_size;
 }
-while (b_read);
-for (i = 0; line[i] == '\n'; i++)
-line[i] = ' ';
-for (; i < line_size; i++)
+while (b_read)
+for (j = 0; line[j] == '\n'; j++)
+line[j] = ' ';
+for (; j < line_size; j++)
 {
-if (line[i] == '\n')
+if (line[j] == '\n')
 {
-line[i] = ';';
-for (i += 1; i < line_size && line[i] == '\n'; i++)
-line[i] = ' ';
+line[j] = ';';
+for (j += 1; j < line_size && line[j] == '\n'; j++)
+line[j] = ' ';
 }
 }
 variable_replacement(&line, exe_ret);
@@ -106,15 +106,15 @@ return (*exe_ret);
 }
 front = args;
 
-for (i = 0; args[i]; i++)
+for (j = 0; args[j]; j++)
 {
-if (_strncmp(args[i], ";", 1) == 0)
+if (_strncmp(args[j], ";", 1) == 0)
 {
-free(args[i]);
-args[i] = NULL;
+free(args[j]);
+args[j] = NULL;
 ret = call_args(args, front, exe_ret);
-args = &args[++i];
-i = 0;
+args = &args[++j];
+j = 0;
 }
 }
 
