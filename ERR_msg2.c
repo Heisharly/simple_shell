@@ -12,29 +12,29 @@ char *error_127(char **args);
  */
 char *error_126(char **args)
 {
-	char *error, *hist_str;
-	int len;
+	char *error, *hist_st;
+	int le;
 
-	hist_str = _itoa(hist);
-	if (!hist_str)
+	hist_st = _itoa(hist);
+	if (!hist_st)
 		return (NULL);
 
-	len = _strlen(name) + _strlen(hist_str) + _strlen(args[0]) + 24;
-	error = malloc(sizeof(char) * (len + 1));
+	le = _strlen(name) + _strlen(hist_st) + _strlen(args[0]) + 24;
+	error = malloc(sizeof(char) * (le + 1));
 	if (!error)
 	{
-		free(hist_str);
+		free(hist_st);
 		return (NULL);
 	}
 
 	_strcpy(error, name);
 	_strcat(error, ": ");
-	_strcat(error, hist_str);
+	_strcat(error, hist_st);
 	_strcat(error, ": ");
 	_strcat(error, args[0]);
 	_strcat(error, ": Permission denied\n");
 
-	free(hist_str);
+	free(hist_st);
 	return (error);
 }
 
@@ -47,28 +47,28 @@ char *error_126(char **args)
  */
 char *error_127(char **args)
 {
-	char *error, *hist_str;
-	int len;
+	char *error, *hist_st;
+	int le;
 
-	hist_str = _itoa(hist);
-	if (!hist_str)
+	hist_st = _itoa(hist);
+	if (!hist_st)
 		return (NULL);
 
-	len = _strlen(name) + _strlen(hist_str) + _strlen(args[0]) + 16;
-	error = malloc(sizeof(char) * (len + 1));
+	le = _strlen(name) + _strlen(hist_st) + _strlen(args[0]) + 16;
+	error = malloc(sizeof(char) * (le + 1));
 	if (!error)
 	{
-		free(hist_str);
+		free(hist_st);
 		return (NULL);
 	}
 
 	_strcpy(error, name);
 	_strcat(error, ": ");
-	_strcat(error, hist_str);
+	_strcat(error, hist_st);
 	_strcat(error, ": ");
 	_strcat(error, args[0]);
 	_strcat(error, ": not found\n");
 
-	free(hist_str);
+	free(hist_st);
 	return (error);
 }

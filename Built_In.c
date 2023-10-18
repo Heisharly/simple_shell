@@ -24,14 +24,14 @@ int (*get_builtin(char *command))(char **args, char **front)
 		{ "help", shellby_help },
 		{ NULL, NULL }
 	};
-	int i;
+	int k;
 
-	for (i = 0; funcs[i].name; i++)
+	for (k = 0; funcs[k].name; k++)
 	{
-		if (_strcmp(funcs[i].name, command) == 0)
+		if (_strcmp(funcs[k].name, command) == 0)
 			break;
 	}
-	return (funcs[i].f);
+	return (funcs[k].f);
 }
 
 /**
@@ -47,20 +47,20 @@ int (*get_builtin(char *command))(char **args, char **front)
  */
 int shellby_exit(char **args, char **front)
 {
-	int i, len_of_int = 10;
-	unsigned int num = 0, max = 1 << (sizeof(int) * 8 - 1);
+	int k, len_int = 10;
+	unsigned int nu = 0, max = 1 << (sizeof(int) * 8 - 1);
 
 	if (args[0])
 	{
 		if (args[0][0] == '+')
 		{
-			i = 1;
-			len_of_int++;
+			k = 1;
+			len_int++;
 		}
-		for (; args[0][i]; i++)
+		for (; args[0][k]; k++)
 		{
-			if (i <= len_of_int && args[0][i] >= '0' && args[0][i] <= '9')
-				num = (num * 10) + (args[0][i] - '0');
+			if (k <= len_int && args[0][k] >= '0' && args[0][k] <= '9')
+				nu = (nu * 10) + (args[0][k] - '0');
 			else
 				return (create_error(--args, 2));
 		}
@@ -69,13 +69,13 @@ int shellby_exit(char **args, char **front)
 	{
 		return (-3);
 	}
-	if (num > max - 1)
+	if (nu > max - 1)
 		return (create_error(--args, 2));
 	args -= 1;
 	free_args(args, front);
 	free_env();
 	free_alias_list(aliases);
-	exit(num);
+	exit(nu);
 }
 
 /**
@@ -94,8 +94,8 @@ int shellby_cd(char **args, char __attribute__((__unused__)) **front)
 	char *oldpwd = NULL, *pwd = NULL;
 	struct stat dir;
 
-	oldpwd = getcwd(oldpwd, 0);
-	if (!oldpwd)
+	oldpw = getcwd(oldpw, 0);
+	if (!oldpw)
 		return (-1);
 
 	if (args[0])
@@ -110,7 +110,7 @@ int shellby_cd(char **args, char __attribute__((__unused__)) **front)
 			}
 			else
 			{
-				free(oldpwd);
+				free(oldpw);
 				return (create_error(args, 2));
 			}
 		}
@@ -121,7 +121,7 @@ int shellby_cd(char **args, char __attribute__((__unused__)) **front)
 				chdir(args[0]);
 			else
 			{
-				free(oldpwd);
+				free(oldpw);
 				return (create_error(args, 2));
 			}
 		}
@@ -132,8 +132,8 @@ int shellby_cd(char **args, char __attribute__((__unused__)) **front)
 			chdir(*(_getenv("HOME")) + 5);
 	}
 
-	pwd = getcwd(pwd, 0);
-	if (!pwd)
+	pw = getcwd(pw, 0);
+	if (!pw)
 		return (-1);
 
 	dir_info = malloc(sizeof(char *) * 2);
@@ -141,21 +141,21 @@ int shellby_cd(char **args, char __attribute__((__unused__)) **front)
 		return (-1);
 
 	dir_info[0] = "OLDPWD";
-	dir_info[1] = oldpwd;
+	dir_info[1] = oldpw;
 	if (shellby_setenv(dir_info, dir_info) == -1)
 		return (-1);
 
 	dir_info[0] = "PWD";
-	dir_info[1] = pwd;
+	dir_info[1] = pw;
 	if (shellby_setenv(dir_info, dir_info) == -1)
 		return (-1);
 	if (args[0] && args[0][0] == '-' && args[0][1] != '-')
 	{
-		write(STDOUT_FILENO, pwd, _strlen(pwd));
+		write(STDOUT_FILENO, pw, _strlen(pw));
 		write(STDOUT_FILENO, new_line, 1);
 	}
-	free(oldpwd);
-	free(pwd);
+	free(oldpw);
+	free(pw);
 	free(dir_info);
 	return (0);
 }

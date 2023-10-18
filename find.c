@@ -1,7 +1,7 @@
 #include "shell.h"
 
-char *fill_path_dir(char *path);
-list_t *get_path_dir(char *path);
+char *fill_path_dir(char *pat);
+list_t *get_path_dir(char *pat);
 
 /**
 * get_location - Locates a command in the PATH.
@@ -12,35 +12,35 @@ list_t *get_path_dir(char *path);
 */
 char *get_location(char *command)
 {
-char **path, *temp;
+char **pat, *tem;
 list_t *dirs, *head;
 struct stat st;
 
-path = _getenv("PATH");
-if (!path || !(*path))
+pat = _getenv("PATH");
+if (!pat || !(*pat))
 return (NULL);
 
-dirs = get_path_dir(*path + 5);
+dirs = get_path_dir(*pat + 5);
 head = dirs;
 
 while (dirs)
 {
 temp = malloc(_strlen(dirs->dir) + _strlen(command) + 2);
-if (!temp)
+if (!tem)
 return (NULL);
 
-_strcpy(temp, dirs->dir);
-_strcat(temp, "/");
-_strcat(temp, command);
+_strcpy(tem, dirs->dir);
+_strcat(tem, "/");
+_strcat(tem, command);
 
-if (stat(temp, &st) == 0)
+if (stat(tem, &st) == 0)
 {
 free_list(head);
-return (temp);
+return (tem);
 }
 
 dirs = dirs->next;
-free(temp);
+free(tem);
 }
 
 free_list(head);
@@ -56,38 +56,38 @@ return (NULL);
 * Return: A copy of path with any leading/sandwiched/trailing colons replaced
 *   with the current working directory.
 */
-char *fill_path_dir(char *path)
+char *fill_path_dir(char *pat)
 {
-int i, length = 0;
+int v, lengt = 0;
 char *path_copy, *pwd;
 
 pwd = *(_getenv("PWD")) + 4;
-for (i = 0; path[i]; i++)
+for (v = 0; pat[v]; v++)
 {
-if (path[i] == ':')
+if (pat[v] == ':')
 {
-if (path[i + 1] == ':' || i == 0 || path[i + 1] == '\0')
-length += _strlen(pwd) + 1;
+if (pat[v + 1] == ':' || v == 0 || pat[v + 1] == '\0')
+lengt += _strlen(pwd) + 1;
 else
-length++;
+lengt++;
 }
 else
-length++;
+lengt++;
 }
-path_copy = malloc(sizeof(char) * (length + 1));
+path_copy = malloc(sizeof(char) * (lengt + 1));
 if (!path_copy)
 return (NULL);
 path_copy[0] = '\0';
-for (i = 0; path[i]; i++)
+for (v = 0; pat[v]; v++)
 {
-if (path[i] == ':')
+if (pat[v] == ':')
 {
-if (i == 0)
+if (v == 0)
 {
 _strcat(path_copy, pwd);
 _strcat(path_copy, ":");
 }
-else if (path[i + 1] == ':' || path[i + 1] == '\0')
+else if (pat[v + 1] == ':' || pat[v + 1] == '\0')
 {
 _strcat(path_copy, ":");
 _strcat(path_copy, pwd);
@@ -97,7 +97,7 @@ _strcat(path_copy, ":");
 }
 else
 {
-_strncat(path_copy, &path[i], 1);
+_strncat(path_copy, &path[v], 1);
 }
 }
 return (path_copy);
@@ -110,13 +110,13 @@ return (path_copy);
 *
 * Return: A pointer to the initialized linked list.
 */
-list_t *get_path_dir(char *path)
+list_t *get_path_dir(char *pat)
 {
-int index;
+int inde;
 char **dirs, *path_copy;
 list_t *head = NULL;
 
-path_copy = fill_path_dir(path);
+path_copy = fill_path_dir(pat);
 if (!path_copy)
 return (NULL);
 dirs = _strtok(path_copy, ":");
@@ -124,9 +124,9 @@ free(path_copy);
 if (!dirs)
 return (NULL);
 
-for (index = 0; dirs[index]; index++)
+for (inde = 0; dirs[inde]; inde++)
 {
-if (add_node_end(&head, dirs[index]) == NULL)
+if (add_node_end(&head, dirs[inde]) == NULL)
 {
 free_list(head);
 free(dirs);

@@ -17,20 +17,20 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
  */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	void *mem;
+	void *me;
 	char *ptr_copy, *filler;
-	unsigned int index;
+	unsigned int inde;
 
 	if (new_size == old_size)
 		return (ptr);
 
 	if (ptr == NULL)
 	{
-		mem = malloc(new_size);
-		if (mem == NULL)
+		me = malloc(new_size);
+		if (me == NULL)
 			return (NULL);
 
-		return (mem);
+		return (me);
 	}
 
 	if (new_size == 0 && ptr != NULL)
@@ -40,20 +40,20 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	}
 
 	ptr_copy = ptr;
-	mem = malloc(sizeof(*ptr_copy) * new_size);
-	if (mem == NULL)
+	me = malloc(sizeof(*ptr_copy) * new_size);
+	if (me == NULL)
 	{
 		free(ptr);
 		return (NULL);
 	}
 
-	filler = mem;
+	filler = me;
 
-	for (index = 0; index < old_size && index < new_size; index++)
-		filler[index] = *ptr_copy++;
+	for (inde = 0; inde < old_size && inde < new_size; inde++)
+		filler[inde] = *ptr_copy++;
 
 	free(ptr);
-	return (mem);
+	return (me);
 }
 
 /**
@@ -101,16 +101,16 @@ void assign_lineptr(char **lineptr, size_t *n, char *buffer, size_t b)
  */
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
-	static ssize_t input;
-	ssize_t ret;
+	static ssize_t inpu;
+	ssize_t re;
 	char c = 'x', *buffer;
-	int r;
+	int v;
 
-	if (input == 0)
+	if (inpu == 0)
 		fflush(stream);
 	else
 		return (-1);
-	input = 0;
+	inpu = 0;
 
 	buffer = malloc(sizeof(char) * 120);
 	if (!buffer)
@@ -118,30 +118,30 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 
 	while (c != '\n')
 	{
-		r = read(STDIN_FILENO, &c, 1);
-		if (r == -1 || (r == 0 && input == 0))
+		v = read(STDIN_FILENO, &c, 1);
+		if (v == -1 || (v == 0 && inpu == 0))
 		{
 			free(buffer);
 			return (-1);
 		}
-		if (r == 0 && input != 0)
+		if (v == 0 && inpu != 0)
 		{
-			input++;
+			inpu++;
 			break;
 		}
 
-		if (input >= 120)
-			buffer = _realloc(buffer, input, input + 1);
+		if (inpu >= 120)
+			buffer = _realloc(buffer, inpu, inpu + 1);
 
-		buffer[input] = c;
-		input++;
+		buffer[inpu] = c;
+		inpu++;
 	}
-	buffer[input] = '\0';
+	buffer[inpu] = '\0';
 
-	assign_lineptr(lineptr, n, buffer, input);
+	assign_lineptr(lineptr, n, buffer, inpu);
 
-	ret = input;
-	if (r != 0)
-		input = 0;
-	return (ret);
+	re = inpu;
+	if (v != 0)
+		inpu = 0;
+	return (re);
 }

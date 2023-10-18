@@ -5,53 +5,51 @@ void free_env(void);
 char **_getenv(const char *var);
 
 /**
- * _copyenv - Create environment copy.
+ * _copyenv - Creates a copy of the environment.
  *
- * Description:a function to copy environment
- * Return: error - NULL.
+ * Return: If an error occurs - NULL.
+ *         O/w - a double pointer to the new copy.
  */
 char **_copyenv(void)
 {
 	char **new_environ;
-	size_t size;
-	int index;
+	size_t siz;
+	int inde;
 
-	for (size = 0; environ[size]; size++)
+	for (siz = 0; environ[siz]; siz++)
 		;
 
-	new_environ = malloc(sizeof(char *) * (size + 1));
+	new_environ = malloc(sizeof(char *) * (siz + 1));
 	if (!new_environ)
 		return (NULL);
 
-	for (index = 0; environ[index]; index++)
+	for (inde = 0; environ[inde]; inde++)
 	{
-		new_environ[index] = malloc(_strlen(environ[index]) + 1);
+		new_environ[inde] = malloc(_strlen(environ[inde]) + 1);
 
-		if (!new_environ[index])
+		if (!new_environ[inde])
 		{
-			for (index--; index >= 0; index--)
-				free(new_environ[index]);
+			for (inde--; inde >= 0; inde--)
+				free(new_environ[inde]);
 			free(new_environ);
 			return (NULL);
 		}
-		_strcpy(new_environ[index], environ[index]);
+		_strcpy(new_environ[inde], environ[inde]);
 	}
-	new_environ[index] = NULL;
+	new_environ[inde] = NULL;
 
 	return (new_environ);
 }
 
 /**
- * free_env - Free the environment copy.
- *
- * Description:fucntion to free enviroment copy
+ * free_env - Frees the the environment copy.
  */
 void free_env(void)
 {
-	int index;
+	int inde;
 
-	for (index = 0; environ[index]; index++)
-		free(environ[index]);
+	for (inde = 0; environ[inde]; inde++)
+		free(environ[inde]);
 	free(environ);
 }
 
@@ -65,13 +63,13 @@ void free_env(void)
  */
 char **_getenv(const char *var)
 {
-	int index, len;
+	int inde, le;
 
-	len = _strlen(var);
-	for (index = 0; environ[index]; index++)
+	le = _strlen(var);
+	for (inde = 0; environ[inde]; inde++)
 	{
-		if (_strncmp(var, environ[index], len) == 0)
-			return (&environ[index]);
+		if (_strncmp(var, environ[inde], le) == 0)
+			return (&environ[inde]);
 	}
 
 	return (NULL);

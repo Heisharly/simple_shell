@@ -14,30 +14,30 @@ char *error_2_syntax(char **args);
  */
 char *error_env(char **args)
 {
-	char *error, *hist_str;
-	int len;
+	char *error, *hist_st;
+	int le;
 
-	hist_str = _itoa(hist);
-	if (!hist_str)
+	hist_st = _itoa(hist);
+	if (!hist_st)
 		return (NULL);
 
 	args--;
-	len = _strlen(name) + _strlen(hist_str) + _strlen(args[0]) + 45;
-	error = malloc(sizeof(char) * (len + 1));
+	le = _strlen(name) + _strlen(hist_st) + _strlen(args[0]) + 45;
+	error = malloc(sizeof(char) * (le + 1));
 	if (!error)
 	{
-		free(hist_str);
+		free(hist_st);
 		return (NULL);
 	}
 
 	_strcpy(error, name);
 	_strcat(error, ": ");
-	_strcat(error, hist_str);
+	_strcat(error, hist_st);
 	_strcat(error, ": ");
 	_strcat(error, args[0]);
 	_strcat(error, ": Unable to add/remove from environment\n");
 
-	free(hist_str);
+	free(hist_st);
 	return (error);
 }
 
@@ -51,10 +51,10 @@ char *error_env(char **args)
 char *error_1(char **args)
 {
 	char *error;
-	int len;
+	int le;
 
-	len = _strlen(name) + _strlen(args[0]) + 13;
-	error = malloc(sizeof(char) * (len + 1));
+	le = _strlen(name) + _strlen(args[0]) + 13;
+	error = malloc(sizeof(char) * (le + 1));
 	if (!error)
 		return (NULL);
 
@@ -74,29 +74,29 @@ char *error_1(char **args)
  */
 char *error_2_exit(char **args)
 {
-	char *error, *hist_str;
-	int len;
+	char *error, *hist_st;
+	int le;
 
-	hist_str = _itoa(hist);
-	if (!hist_str)
+	hist_st = _itoa(hist);
+	if (!hist_st)
 		return (NULL);
 
-	len = _strlen(name) + _strlen(hist_str) + _strlen(args[0]) + 27;
-	error = malloc(sizeof(char) * (len + 1));
+	le = _strlen(name) + _strlen(hist_st) + _strlen(args[0]) + 27;
+	error = malloc(sizeof(char) * (le + 1));
 	if (!error)
 	{
-		free(hist_str);
+		free(hist_st);
 		return (NULL);
 	}
 
 	_strcpy(error, name);
 	_strcat(error, ": ");
-	_strcat(error, hist_str);
+	_strcat(error, hist_st);
 	_strcat(error, ": exit: Illegal number: ");
 	_strcat(error, args[0]);
 	_strcat(error, "\n");
 
-	free(hist_str);
+	free(hist_st);
 	return (error);
 }
 
@@ -109,26 +109,26 @@ char *error_2_exit(char **args)
  */
 char *error_2_cd(char **args)
 {
-	char *error, *hist_str;
-	int len;
+	char *error, *hist_st;
+	int le;
 
-	hist_str = _itoa(hist);
-	if (!hist_str)
+	hist_st = _itoa(hist);
+	if (!hist_st)
 		return (NULL);
 
 	if (args[0][0] == '-')
 		args[0][2] = '\0';
-	len = _strlen(name) + _strlen(hist_str) + _strlen(args[0]) + 24;
-	error = malloc(sizeof(char) * (len + 1));
+	le = _strlen(name) + _strlen(hist_st) + _strlen(args[0]) + 24;
+	error = malloc(sizeof(char) * (le + 1));
 	if (!error)
 	{
-		free(hist_str);
+		free(hist_st);
 		return (NULL);
 	}
 
 	_strcpy(error, name);
 	_strcat(error, ": ");
-	_strcat(error, hist_str);
+	_strcat(error, hist_st);
 	if (args[0][0] == '-')
 		_strcat(error, ": cd: Illegal option ");
 	else
@@ -136,7 +136,7 @@ char *error_2_cd(char **args)
 	_strcat(error, args[0]);
 	_strcat(error, "\n");
 
-	free(hist_str);
+	free(hist_st);
 	return (error);
 }
 
@@ -149,28 +149,28 @@ char *error_2_cd(char **args)
  */
 char *error_2_syntax(char **args)
 {
-	char *error, *hist_str;
-	int len;
+	char *error, *hist_st;
+	int le;
 
-	hist_str = _itoa(hist);
-	if (!hist_str)
+	hist_st = _itoa(hist);
+	if (!hist_st)
 		return (NULL);
 
-	len = _strlen(name) + _strlen(hist_str) + _strlen(args[0]) + 33;
-	error = malloc(sizeof(char) * (len + 1));
+	le = _strlen(name) + _strlen(hist_st) + _strlen(args[0]) + 33;
+	error = malloc(sizeof(char) * (le + 1));
 	if (!error)
 	{
-		free(hist_str);
+		free(hist_st);
 		return (NULL);
 	}
 
 	_strcpy(error, name);
 	_strcat(error, ": ");
-	_strcat(error, hist_str);
+	_strcat(error, hist_st);
 	_strcat(error, ": Syntax error: \"");
 	_strcat(error, args[0]);
 	_strcat(error, "\" unexpected\n");
 
-	free(hist_str);
+	free(hist_st);
 	return (error);
 }

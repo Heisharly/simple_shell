@@ -16,17 +16,17 @@ int check_args(char **args);
 */
 char *get_args(char *line, int *exe_ret)
 {
-size_t n = 0;
-ssize_t read;
+size_t v = 0;
+ssize_t rea;
 char *prompt = "$ ";
 
 if (line)
 free(line);
 
-read = _getline(&line, &n, STDIN_FILENO);
-if (read == -1)
+rea = _getline(&line, &v, STDIN_FILENO);
+if (rea == -1)
 return (NULL);
-if (read == 1)
+if (rea == 1)
 {
 hist++;
 if (isatty(STDIN_FILENO))
@@ -34,9 +34,9 @@ write(STDOUT_FILENO, prompt, 2);
 return (get_args(line, exe_ret));
 }
 
-line[read - 1] = '\0';
+line[rea - 1] = '\0';
 variable_replacement(&line, exe_ret);
-handle_line(&line, read);
+handle_line(&line, rea);
 
 return (line);
 }
@@ -51,52 +51,52 @@ return (line);
 */
 int call_args(char **args, char **front, int *exe_ret)
 {
-int ret, index;
+int re, inde;
 
 if (!args[0])
 return (*exe_ret);
-for (index = 0; args[index]; index++)
+for (inde = 0; args[inde]; inde++)
 {
-if (_strncmp(args[index], "||", 2) == 0)
+if (_strncmp(args[inde], "||", 2) == 0)
 {
-free(args[index]);
-args[index] = NULL;
+free(args[inde]);
+args[inde] = NULL;
 args = replace_aliases(args);
-ret = run_args(args, front, exe_ret);
+re = run_args(args, front, exe_ret);
 if (*exe_ret != 0)
 {
-args = &args[++index];
-index = 0;
+args = &args[++inde];
+inde = 0;
 }
 else
 {
-for (index++; args[index]; index++)
-free(args[index]);
-return (ret);
+for (inde++; args[inde]; inde++)
+free(args[inde]);
+return (re);
 }
 }
-else if (_strncmp(args[index], "&&", 2) == 0)
+else if (_strncmp(args[inde], "&&", 2) == 0)
 {
-free(args[index]);
-args[index] = NULL;
+free(args[inde]);
+args[inde] = NULL;
 args = replace_aliases(args);
 ret = run_args(args, front, exe_ret);
 if (*exe_ret == 0)
 {
-args = &args[++index];
-index = 0;
+args = &args[++inde];
+inde = 0;
 }
 else
 {
-for (index++; args[index]; index++)
-free(args[index]);
-return (ret);
+for (inde++; args[inde]; inde++)
+free(args[inde]);
+return (re);
 }
 }
 }
 args = replace_aliases(args);
-ret = run_args(args, front, exe_ret);
-return (ret);
+re = run_args(args, front, exe_ret);
+return (re);
 }
 
 /**
@@ -109,29 +109,29 @@ return (ret);
  */
 int run_args(char **args, char **front, int *exe_ret)
 {
-int ret, i;
+int re, x;
 int (*builtin)(char **args, char **front);
 
 builtin = get_builtin(args[0]);
 
 if (builtin)
 {
-ret = builtin(args + 1, front);
-if (ret != EXIT)
-*exe_ret = ret;
+re = builtin(args + 1, front);
+if (re != EXIT)
+*exe_ret = re;
 }
 else
 {
 *exe_ret = execute(args, front);
-ret = *exe_ret;
+re = *exe_ret;
 }
 
 hist++;
 
-for (i = 0; args[i]; i++)
+for (x = 0; args[x]; x++)
 free(args[i]);
 
-return (ret);
+return (re);
 }
 
 /**
@@ -144,7 +144,7 @@ return (ret);
  */
 int handle_args(int *exe_ret)
 {
-int ret = 0, index;
+int re = 0, inde;
 char **args, *line = NULL, **front;
 
 line = get_args(line, exe_ret);
@@ -154,7 +154,7 @@ return (END_OF_FILE);
 args = _strtok(line, " ");
 free(line);
 if (!args)
-return (ret);
+return (re);
 if (check_args(args) != 0)
 {
 *exe_ret = 2;
@@ -163,22 +163,22 @@ return (*exe_ret);
 }
 front = args;
 
-for (index = 0; args[index]; index++)
+for (inde = 0; args[inde]; inde++)
 {
-if (_strncmp(args[index], ";", 1) == 0)
+if (_strncmp(args[inde], ";", 1) == 0)
 {
-free(args[index]);
-args[index] = NULL;
-ret = call_args(args, front, exe_ret);
-args = &args[++index];
-index = 0;
+free(args[inde]);
+args[inde] = NULL;
+re = call_args(args, front, exe_ret);
+args = &args[++inde];
+inde = 0;
 }
 }
 if (args)
-ret = call_args(args, front, exe_ret);
+re = call_args(args, front, exe_ret);
 
 free(front);
-return (ret);
+return (re);
 }
 
 /**
@@ -190,19 +190,19 @@ return (ret);
 */
 int check_args(char **args)
 {
-size_t i;
+size_t v;
 char *cur, *nex;
 
-for (i = 0; args[i]; i++)
+for (v = 0; args[v]; v++)
 {
-cur = args[i];
+cur = args[v];
 if (cur[0] == ';' || cur[0] == '&' || cur[0] == '|')
 {
-if (i == 0 || cur[1] == ';')
-return (create_error(&args[i], 2));
-nex = args[i + 1];
+if (v == 0 || cur[1] == ';')
+return (create_error(&args[v], 2));
+nex = args[v + 1];
 if (nex && (nex[0] == ';' || nex[0] == '&' || nex[0] == '|'))
-return (create_error(&args[i + 1], 2));
+return (create_error(&args[v + 1], 2));
 }
 }
 return (0);

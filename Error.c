@@ -12,25 +12,25 @@ int create_error(char **args, int err);
  */
 int num_len(int num)
 {
-	unsigned int num1;
-	int len = 1;
+	unsigned int nu1;
+	int le = 1;
 
 	if (num < 0)
 	{
-		len++;
-		num1 = num * -1;
+		le++;
+		nu1 = num * -1;
 	}
 	else
 	{
-		num1 = num;
+		nu1 = num;
 	}
-	while (num1 > 9)
+	while (nu1 > 9)
 	{
-		len++;
-		num1 /= 10;
+		le++;
+		nu1 /= 10;
 	}
 
-	return (len);
+	return (le);
 }
 
 /**
@@ -43,31 +43,31 @@ int num_len(int num)
 char *_itoa(int num)
 {
 	char *buffer;
-	int len = num_len(num);
-	unsigned int num1;
+	int le = num_len(num);
+	unsigned int nu1;
 
-	buffer = malloc(sizeof(char) * (len + 1));
+	buffer = malloc(sizeof(char) * (le + 1));
 	if (!buffer)
 		return (NULL);
 
-	buffer[len] = '\0';
+	buffer[le] = '\0';
 
 	if (num < 0)
 	{
-		num1 = num * -1;
+		nu1 = num * -1;
 		buffer[0] = '-';
 	}
 	else
 	{
-		num1 = num;
+		nu1 = num;
 	}
 
-	len--;
+	le--;
 	do {
-		buffer[len] = (num1 % 10) + '0';
-		num1 /= 10;
-		len--;
-	} while (num1 > 0);
+		buffer[le] = (nu1 % 10) + '0';
+		nu1 /= 10;
+		le--;
+	} while (nu1 > 0);
 
 	return (buffer);
 }
