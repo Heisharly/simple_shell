@@ -20,7 +20,7 @@ int index;
 for (index = 0; p[index]; index++)
 {
 if (p[index] == b)
-return (s + index);
+return (p + index);
 }
 
 return (NULL);

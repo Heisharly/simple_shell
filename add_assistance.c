@@ -80,7 +80,7 @@ else if (_strncmp(args[inde], "&&", 2) == 0)
 free(args[inde]);
 args[inde] = NULL;
 args = replace_aliases(args);
-ret = run_args(args, front, exe_ret);
+re = run_args(args, front, exe_ret);
 if (*exe_ret == 0)
 {
 args = &args[++inde];
@@ -129,7 +129,7 @@ re = *exe_ret;
 hist++;
 
 for (x = 0; args[x]; x++)
-free(args[i]);
+free(args[x]);
 
 return (re);
 }

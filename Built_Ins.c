@@ -32,7 +32,7 @@ int shellby_alias(char **args, char __attribute__((__unused__)) **front)
 	for (x = 0; args[x]; x++)
 	{
 		temp = aliases;
-		value = _strchr(args[i], '=');
+		value = _strchr(args[x], '=');
 		if (!value)
 		{
 			while (temp)
@@ -146,7 +146,7 @@ char **replace_aliases(char **args)
 				}
 				_strcpy(new_value, temp->value);
 				free(args[v]);
-				args[i] = new_value;
+				args[v] = new_value;
 				v--;
 				break;
 			}

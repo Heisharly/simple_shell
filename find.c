@@ -25,7 +25,7 @@ head = dirs;
 
 while (dirs)
 {
-temp = malloc(_strlen(dirs->dir) + _strlen(command) + 2);
+tem = malloc(_strlen(dirs->dir) + _strlen(command) + 2);
 if (!tem)
 return (NULL);
 
@@ -97,7 +97,7 @@ _strcat(path_copy, ":");
 }
 else
 {
-_strncat(path_copy, &path[v], 1);
+_strncat(path_copy, &pat[v], 1);
 }
 }
 return (path_copy);
