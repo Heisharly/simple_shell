@@ -112,7 +112,7 @@ int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front)
 	if (!new_environ)
 		return (create_error(args, -1));
 
-	for (inde = 0 , inde2 = 0; environ[inde]; inde++)
+	for (inde = 0, inde2 = 0; environ[inde]; inde++)
 	{
 		if (*env_var == environ[inde])
 		{

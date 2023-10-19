@@ -79,11 +79,12 @@ line_size += b_read;
 line = _realloc(line, old_size, line_size);
 _strcat(line, buffer);
 old_size = line_size;
+} while (b_read);
+for (j = 0 ; line[j] == '\n'; j++)
+{
+line[j] = ' ' ;
 }
-while (b_read);
-for (j = 0; line[j] == '\n'; j++);
-line[j] = ' ';
-for (; j < line_size; j++)
+for (j = 0; j < line_size; j++)
 {
 if (line[j] == '\n')
 {
